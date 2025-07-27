@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Resultados de la búsqueda de Pokémon</title>
+</head>
+<body>
+    <h2>Resultados de la búsqueda</h2>
+    {% if pokemones %}
+        <ul>
+        {% for poke in pokemones %}
+            <li>
+                <strong>{{ poke['nombre'] }}</strong>
+                {% if poke['tipos'] %}
+                    ({{ poke['tipos']|join(', ') }})
+                {% endif %}
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No se encontraron Pokémon.</p>
+    {% endif %}
+    <a href="/">Volver</a>
+</body>
+</html>

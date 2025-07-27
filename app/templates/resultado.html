@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Datos del Pokémon Favorito</title>
+</head>
+<body>
+    {% if nombre %}
+        <h1>¡Hola, {{ nombre }}!</h1>
+    {% endif %}
+
+    {% if fecha %}
+        <p>Tu fecha de nacimiento es: {{ fecha }}</p>
+    {% endif %}
+
+    {% if signo %}
+        <p>Tu signo zodiacal es: {{ signo }}</p>
+    {% endif %}
+
+    <h2>Datos del Pokémon</h2>
+    {% if pokemon %}
+        <p><strong>Nombre:</strong> {{ pokemon['nombre'] }}</p>
+        {% if pokemon['sprite'] %}
+            <img src="{{ pokemon['sprite'] }}" alt="{{ pokemon['nombre'] }}">
+        {% endif %}
+        <p><strong>Peso:</strong> {{ pokemon['peso'] }}</p>
+        <p><strong>Altura:</strong> {{ pokemon['altura'] }}</p>
+        <p><strong>Habilidades:</strong> {{ pokemon['habilidades']|join(', ') }}</p>
+    {% else %}
+        <p>No se encontraron datos del Pokémon.</p>
+    {% endif %}
+
+    {% if nombre and pokemon %}
+        <form action="/favoritos" method="post">
+            <input type="hidden" name="nombre" value="{{ nombre }}">
+            <input type="hidden" name="pokemon" value="{{ pokemon['nombre'] }}">
+            <button type="submit">Guardar como favorito</button>
+        </form>
+    {% endif %}
+</body>
+</html>

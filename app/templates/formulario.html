@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Horóscopo Pokémon - Formulario</title>
+</head>
+<body>
+    <h1>Consulta tu Horóscopo Pokémon</h1>
+    <form action="/horoscopo" method="post">
+        <label for="nombre">Nombre:</label><br>
+        <input type="text" id="nombre" name="nombre" required><br><br>
+
+        <label for="fecha_nacimiento">Fecha de Nacimiento:</label><br>
+        <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required><br><br>
+
+        <button type="submit">Consultar</button>
+    </form> 
+
+    <h2>Favoritos</h2>
+    <form action="/favoritos" method="get">
+        <label for="usuario">Ver favoritos de:</label>
+        <input type="text" name="usuario" id="usuario" required>
+        <button type="submit">Ver favoritos</button>
+    </form>
+
+    {% if favoritos %}
+        <ul>
+        {% for fav in favoritos %}
+            <li>
+                {{ fav.pokemon }}
+                <!-- Botón datos -->
+                <form action="/favoritos/{{ fav.id }}" method="get" style="display:inline;">
+                    <input type="hidden" name="usuario" value="{{ fav.usuario }}">
+                    <button type="submit">Ver datos</button>
+                </form>
+                <!-- Botón eliminar -->
+                <form action="/favoritos" method="post" style="display:inline;" onsubmit="event.preventDefault(); fetch('/favoritos', {method: 'DELETE', body: new FormData(this)}).then(()=>location.reload());">
+                    <input type="hidden" name="nombre" value="{{ fav.usuario }}">
+                    <input type="hidden" name="id" value="{{ fav.id }}">
+                    <button type="submit">Eliminar</button>
+                </form>
+            </li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+    <h2>Buscar Pokémon</h2>
+    <form action="/pokemon" method="get">
+        <label for="nombre">Nombre:</label>
+        <input type="text" name="nombre" id="nombre">
+        <label for="tipo">Tipo:</label>
+        <input type="text" name="tipo" id="tipo">
+        <button type="submit">Buscar</button>
+    </form>
+</body>
+</html>
